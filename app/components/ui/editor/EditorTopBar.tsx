@@ -16,6 +16,8 @@ import Link from "next/link";
 import { TooltipAction } from "@/components/ui/tooltip-action";
 import { useCredits } from "@/hooks/useCredits";
 import { UpgradeModal } from "../UpgradeModal";
+import { ShinyText } from "@/components/ui/ShinyText";
+
 
 interface ImageExportProgress {
     status: "idle" | "preparing" | "rendering" | "complete" | "error";
@@ -204,19 +206,26 @@ export function EditorTopBar({
                                 </div>
                                 
                                 {!isPremium && (
-                                    <div className="p-2 flex justify-center">
+                                    <DropdownMenu.Item asChild>
                                         <button
                                             onClick={() => setIsUpgradeModalOpen(true)}
-                                            className="w-full relative h-[44px] rounded-lg overflow-hidden group cursor-pointer border-none p-0 outline-none hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-md shrink-0"
+                                            className="flex items-center justify-between w-full px-3 py-2 text-left text-sm font-semibold text-foreground hover:bg-white/5 rounded-lg transition-all cursor-pointer group outline-none"
                                         >
-                                            <img
-                                                src="/pro-banner.webp"
-                                                alt="Upgrade to Pro"
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
-                                            />
+                                            <div className="flex items-center gap-3">
+                                                <Icon icon="solar:stars-bold" className="size-4 text-amber-400 group-hover:text-amber-300 transition-colors animate-pulse shrink-0" />
+                                                <ShinyText
+                                                    text={t("auth.upgradeToPro")}
+                                                    speed={2}
+                                                    color="hsl(0 0% 70% / 0.85)"
+                                                    shineColor="#ffffff"
+                                                    className="font-bold text-sm bg-gradient-to-r from-amber-200 via-yellow-100 to-amber-200 bg-clip-text text-transparent"
+                                                />
+                                            </div>
+                                            <Icon icon="solar:alt-arrow-right-linear" className="size-4 text-neutral-500 group-hover:text-white transition-colors shrink-0" />
                                         </button>
-                                    </div>
+                                    </DropdownMenu.Item>
                                 )}
+
 
                                 <DropdownMenu.Item asChild>
                                     <Link

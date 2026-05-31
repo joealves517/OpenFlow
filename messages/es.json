@@ -318,7 +318,9 @@
     "helpSupport": "Ayuda y Soporte",
     "privacyLicense": "Privacidad y Licencia",
     "ariaLabel": "Menú de usuario",
-    "defaultUser": "Usuario"
+    "defaultUser": "Usuario",
+    "upgradeToPro": "Actualizar a Pro"
+
   },
   "donation": {
     "title": "Cómprame un café",
@@ -785,7 +787,9 @@
         "home": "Inicio",
         "editor": "Editor",
         "signOut": "Cerrar sesión",
-        "signingOut": "Cerrando sesión..."
+        "signingOut": "Cerrando sesión...",
+        "upgradeToPro": "Actualizar a Pro"
+
       }
     },
     "export": {

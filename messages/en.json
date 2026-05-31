@@ -318,7 +318,9 @@
     "helpSupport": "Help & Support",
     "privacyLicense": "Privacy & License",
     "ariaLabel": "User menu",
-    "defaultUser": "User"
+    "defaultUser": "User",
+    "upgradeToPro": "Upgrade to Pro"
+
   },
   "donation": {
     "title": "Buy me a coffee",
@@ -833,7 +835,9 @@
         "home": "Home",
         "editor": "Editor",
         "signOut": "Sign Out",
-        "signingOut": "Signing out..."
+        "signingOut": "Signing out...",
+        "upgradeToPro": "Upgrade to Pro"
+
       }
     },
     "export": {

@@ -802,7 +802,9 @@
         "home": "Главная",
         "editor": "Редактор",
         "signOut": "Выйти",
-        "signingOut": "Выход..."
+        "signingOut": "Выход...",
+        "upgradeToPro": "Обновить до Pro"
+
       }
     },
     "export": {
@@ -1162,6 +1164,8 @@
     "helpSupport": "Справка и поддержка",
     "privacyLicense": "Конфиденциальность и Лицензия",
     "ariaLabel": "Меню пользователя",
-    "defaultUser": "Пользователь"
+    "defaultUser": "Пользователь",
+    "upgradeToPro": "Обновить до Pro"
+
   }
 }
