@@ -1,0 +1,37 @@
+const requiredVars = [
+    "GCP_PROJECT_ID",
+    "GEMINI_API_KEY",
+];
+function loadEnv() {
+    const missing = requiredVars.filter((key) => !process.env[key]);
+    if (missing.length > 0) {
+        console.warn(`[Config] Missing env vars: ${missing.join(", ")}`);
+    }
+    return {
+        port: parseInt(process.env.PORT || "8080", 10),
+        nodeEnv: process.env.NODE_ENV || "development",
+        gcp: {
+            projectId: process.env.GCP_PROJECT_ID || "ask-this-page",
+            region: process.env.GCP_REGION || "us-central1",
+        },
+        gemini: {
+            apiKey: process.env.GEMINI_API_KEY || "",
+        },
+        google: {
+            oauthClientId: process.env.GOOGLE_OAUTH_CLIENT_ID || "676582412453-th7rc1b54slhajuepvus758pdakvb3t8.apps.googleusercontent.com",
+        },
+        lemonSqueezy: {
+            apiKey: process.env.LEMONSQUEEZY_API_KEY || "",
+            webhookSecret: process.env.LEMONSQUEEZY_WEBHOOK_SECRET || "",
+            storeId: process.env.LEMONSQUEEZY_STORE_ID || "",
+        },
+        pexels: {
+            apiKey: process.env.PEXELS_API_KEY || "",
+        },
+        groq: {
+            apiKey: process.env.GROQ_API_KEY || "",
+        },
+    };
+}
+export const config = loadEnv();
+//# sourceMappingURL=index.js.map

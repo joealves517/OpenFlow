@@ -1,0 +1,67 @@
+import { GoogleGenAI } from "@google/genai";
+import { config } from "../config/index.js";
+const vertexAI = new GoogleGenAI({
+    vertexai: true,
+    project: config.gcp.projectId,
+    location: config.gcp.region,
+});
+const MODEL_NAME = "gemini-2.5-flash-lite";
+async function callGeminiTranscribe(client, audioBase64, mimeType) {
+    const response = await client.models.generateContent({
+        model: MODEL_NAME,
+        contents: [
+            {
+                inlineData: {
+                    mimeType: mimeType || "audio/mpeg",
+                    data: audioBase64,
+                },
+            },
+            {
+                text: "Accurately transcribe this audio recording. Provide timestamps for each sentence or meaningful phrase. Return the results in the requested JSON structure. CRITICAL: Analyze the start time of the actual spoken voice. If there is a silence, music, or instrumental intro at the beginning, the 'start' timestamp of the first segment MUST reflect when the voice actually begins (e.g., 12.5 seconds if the speaking starts at 12.5s), NOT 0.0.",
+            },
+        ],
+        config: {
+            systemInstruction: "You are an expert audio transcription system. Return only structured JSON containing the language, the overall transcript, and segments with start and end times in seconds. CRITICAL: You must detect silences and background music at the beginning of the audio. Do not start the first segment at 0.0 unless the voice starts speaking immediately. Timestamps must be highly synchronized with the actual spoken speech.",
+            temperature: 0.1,
+            responseMimeType: "application/json",
+            responseSchema: {
+                type: "OBJECT",
+                properties: {
+                    language: { type: "STRING" },
+                    transcript: { type: "STRING" },
+                    segments: {
+                        type: "ARRAY",
+                        items: {
+                            type: "OBJECT",
+                            properties: {
+                                start: { type: "NUMBER" },
+                                end: { type: "NUMBER" },
+                                text: { type: "STRING" },
+                            },
+                            required: ["start", "end", "text"],
+                        },
+                    },
+                },
+                required: ["language", "transcript", "segments"],
+            },
+        },
+    });
+    const rawText = (response.text || "{}").trim();
+    try {
+        const result = JSON.parse(rawText);
+        result.usage = {
+            inputTokens: response.usageMetadata?.promptTokenCount ?? 0,
+            outputTokens: response.usageMetadata?.candidatesTokenCount ?? 0,
+        };
+        return result;
+    }
+    catch (err) {
+        console.error("[Gemini Transcribe] Failed to parse JSON response:", rawText);
+        throw new Error("Invalid transcription format returned by AI.");
+    }
+}
+export async function transcribeWithGemini(audioBase64, mimeType = "audio/mpeg", usePremium = false) {
+    console.log(`[Gemini Transcribe] Routing directly to Vertex AI (Premium mode: ${usePremium})`);
+    return callGeminiTranscribe(vertexAI, audioBase64, mimeType);
+}
+//# sourceMappingURL=gemini-transcribe.js.map
